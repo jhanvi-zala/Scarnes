@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
         roll2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
 
-                if(all_comp_score>=100) {
+                if(all_your_score>=100) {
                     hold1.setEnabled(false);
                     roll2.setEnabled(false);
-                    Toast.makeText(getApplicationContext(),"Computer wins",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"you wins",Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     c.setEnabled(false);
                     t_your_score.setEnabled(true);
                     t.setEnabled(true);
+                    c.setText("00");
 
                     int value = random.nextInt(6) + 1;
                     if (value == 1) {
@@ -140,10 +141,10 @@ public class MainActivity extends AppCompatActivity {
         t_comp_score.setEnabled(true);
         c.setEnabled(false);
 
-        if (turn_your_score >= 100) {
+        if (turn_comp_score >= 100) {
             hold1.setEnabled(false);
             roll2.setEnabled(false);
-            Toast.makeText(getApplicationContext(), "User wins", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Computers wins", Toast.LENGTH_SHORT).show();
 
         } else {
             roll2.setEnabled(false);
