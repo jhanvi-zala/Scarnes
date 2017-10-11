@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     TextView t_comp_score;
     TextView t;
     TextView c;
-
+    Handler han = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         t = (TextView)findViewById(R.id.y_t);
         c = (TextView) findViewById(R.id.c_t);
 
+
         roll2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
 
@@ -56,21 +57,25 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    t_comp_score.setEnabled(false);
-                    c.setEnabled(false);
                     t_your_score.setEnabled(true);
                     t.setEnabled(true);
-                    c.setText("00");
+
 
                     int value = random.nextInt(6) + 1;
                     if (value == 1) {
+
                         turn_your_score = 0;
+                        dice.setImageResource(R.drawable.dice1);
+
                         roll2.setEnabled(false);
                         all_your_score += turn_your_score;
                         String st = " " + all_your_score;
                         your_score.setText(st);
-                        dice.setImageResource(R.drawable.dice1);
-                        computerTurn();
+                        t.setText("00");
+                        t_your_score.setEnabled(false);
+                        t.setEnabled(false);
+                        han.postDelayed();
+                        //computerTurn();
                     } else if (value == 2) {
                         turn_your_score += 2;
                         dice.setImageResource(R.drawable.dice2);
@@ -105,6 +110,11 @@ public class MainActivity extends AppCompatActivity {
                 String st = " " + all_your_score;
                 your_score.setText(st);
                 turn_your_score = 0;
+                t_your_score.setEnabled(false);
+                t.setEnabled(false);
+                t_comp_score.setEnabled(true);
+                c.setEnabled(true);
+                t.setText("00");
                 computerTurn();
 
             }
@@ -136,19 +146,15 @@ public class MainActivity extends AppCompatActivity {
     public void computerTurn() {
 
         Boolean flag = true;
-        t_your_score.setEnabled(false);
-        t.setEnabled(false);
-        t_comp_score.setEnabled(true);
-        c.setEnabled(false);
 
-        if (turn_comp_score >= 100) {
-            hold1.setEnabled(false);
-            roll2.setEnabled(false);
+        roll2.setEnabled(false);
+        hold1.setEnabled(false);
+
+        if (all_comp_score >= 100) {
+
             Toast.makeText(getApplicationContext(), "Computers wins", Toast.LENGTH_SHORT).show();
 
         } else {
-            roll2.setEnabled(false);
-            hold1.setEnabled(false);
 
             int value = random.nextInt(6) + 1;
             if (value == 1) {
@@ -160,8 +166,9 @@ public class MainActivity extends AppCompatActivity {
                 all_comp_score += turn_comp_score;
                 String st = " " + all_comp_score;
                 computer_score.setText(st);
-
-                //comp_hold(turn_comp_score);
+                t_comp_score.setEnabled(false);
+                c.setEnabled(false);
+                c.setText("00");
 
             } else if (value == 2) {
                 turn_comp_score += 2;
@@ -187,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
             c.setText(str);
 
         }
-        Handler han = new Handler();
+
         final Boolean finalFlag = flag;
         if(!flag || turn_comp_score>10)
         {
@@ -197,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run()
             {
-                if (turn_comp_score <= 10 && finalFlag) {
+                if (turn_comp_score <= 15 && finalFlag) {
 
                     computerTurn();
                 } else {
@@ -207,7 +214,12 @@ public class MainActivity extends AppCompatActivity {
                     all_comp_score += turn_comp_score;
                     String st = " " + all_comp_score;
                     turn_comp_score=0;
+                    t_comp_score.setEnabled(false);
+                    c.setEnabled(false);
+                    c.setText("00");
                     computer_score.setText(st);
+                    t_your_score.setEnabled(true);
+                    t.setEnabled(true);
                 }
             }
         }, 2000);
